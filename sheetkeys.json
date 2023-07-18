@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "dreams-redeveloped-apis",
+    "private_key_id": "1d3b16af53e1cc8f82a442ee4ec9e27bf1ecc791",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC9Qok3rvtdX1Qh\nI8aZY77QvNFnDMYB1dggGKAdDZcQXzOxb0g6wbuRgUMLGW8TDnpjzh7T4IMCKiP1\n2hs3B0phVjzGEtHxmROuvm99HE1kMmoYVWyPLWDPyFEQ47IwphOh5+5jBghXJIfv\n9WZEso0XNj7K35GtK/5ds0G2P1IRkKJEcMUi8fDcmixEbW0QZr6+zQJ6xFzLJchY\n1QSCyAsNIoiQdBmqyy4c0slUVnSEqPMldppxYiAg62kXdRT1hlD5PMGPtrgKV42V\nVzFHh64XMrn2oXzVWwWF3qoBaoU2ERjMTqpWHSNc9h1ty3dmnK2L4AAAekwUFk/I\nVMH7ogJPAgMBAAECggEAE8HR5EO6juVIOYtsDJA6l7zWWV0egIuL29HmSRIlnnpp\nwZCd6DBYPdjSIGL/0uv0f93BHxo1YvD2PxCNPcHflGi1wHGvg/qYcOoFZnihZZ/T\nroWgZxP0IszFFa/HZse3jfPR0XmMPlicbkLecbZ3/x/VD0Wmhf7tN2fiqL1UemvB\n+Ew4fJAPDxEIy9prhC8MXjgZGy++VekAuwkvBI7zCybM89VrmTpub31vHTVEPMnT\n3c9Wq5EQ7Ell++W2F6RmH3NEnZ3YyAAsCM7rnjenErrN8+tHRWTtTCLnEjv5MyUd\n9LHAJM9Vi/akERTFy5cbpDkx/PhuDOfqE4hb5OZ3IQKBgQD8lCebl6gxixQ8wC1d\n6QTNaPff8QwdCvOrcRyKApMwKpqwcm443Rv/AhCLZWUydVq+Re4wX8DyggcVwWVa\nI52/bzL3gVfm7M6xLrdQ+0thXELCagdYYhyw0kblK+uJpCTqoje7Dt+DcrDE2qN8\nHLZ33KcltCBPyThfTkL0pxlWoQKBgQC/0tDs5YC6xHODFNjARXb9IYD31SSJs/wO\nbDRoQAjdk0PU80uqomPHefTwu7h+9Od3vDh9HlfWg/UF2YZUJgapdJUr5EHNb3Il\nf8C7h12cNkFYh7XYBBpAh840j6I3AVMr6FseGwM8+A16j7g8O+O7PPOVMswvxJwo\ncD/izIDi7wKBgQCnDg6MWGhELGq8K5dV75LfkTexBCsw4ld74xovJbjYOLWLUoQY\nVBX6OhFbQTsHfpsAEhySHiLtwpaRCxLP5ZKmVRPuo7vR3npusilJBIw83trA34Pw\nLyQux0VgugXVSZ2pGpWlwRaQSEEmUj2jDxKYgHaE93gPjVUdpBOg4QxfQQKBgDYI\nD8lqq+Pvygm2KYefCXErqsQkSXJwPCNj3y8uOlEPVh/5l+qsayaY96GHfuRj338e\niVrU3TETYkUPjILPYzkAGbSPSumu5pwhbAxmiLujnKxvLY13Ol3K4w5zFuIfgWnw\nvRmxyiu2QzWundp5lB/9fy8ba+BYpRPO6m/b4sIJAoGAdZsL3NtD4FTwD7LeVzYq\nbS29RZFhNjL2e3rLFMlVGK1wdHJhunTVBEReXVESHb7PejGV/6+5ovRJVb+7YNIw\nAFU8VjlIXVcT81dCpGOGkMF/ZhU0vrblgzl9BSrvjUN+Tvc4tywI/MuVE+2D1AWx\nQVSOeNU8vZahYg7z20g8gGc=\n-----END PRIVATE KEY-----\n",
+    "client_email": "feasibitywizard@dreams-redeveloped-apis.iam.gserviceaccount.com",
+    "client_id": "105548438498410968299",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/feasibitywizard%40dreams-redeveloped-apis.iam.gserviceaccount.com"
+  }
+  

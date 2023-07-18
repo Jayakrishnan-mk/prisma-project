@@ -1,0 +1,603 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model user {
+  userId           String     @id @default(auto()) @map("_id") @db.ObjectId
+  emailId          String?
+  password         String?
+  mobile           Int        @unique
+  isMobileVerified Boolean    @default(false)
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @default(now()) @updatedAt
+  isDeleted        Boolean    @default(false)
+  developer        developer? @relation(fields: [developerId], references: [developerId])
+  developerId      String?    @unique @db.ObjectId
+  owner            owner?     @relation(fields: [ownerId], references: [ownerId])
+  ownerId          String?    @unique @db.ObjectId
+  lawyer           lawyer?    @relation(fields: [lawyerId], references: [lawyerId])
+  lawyerId         String?    @unique @db.ObjectId
+  architect        architect? @relation(fields: [architectId], references: [architectId])
+  architectId      String?    @unique @db.ObjectId
+  mozni            mozni?     @relation(fields: [mozniId], references: [mozniId])
+  mozniId          String?    @unique @db.ObjectId
+}
+
+model otp {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  mobile    Int      @unique
+  otp       String
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model developer {
+  developerId         String           @id @default(auto()) @map("_id") @db.ObjectId
+  name                String
+  email               String
+  email2              String?
+  email3              String?
+  mobile              Int              @unique
+  mobile2             Int?
+  mobile3             Int?
+  brochure            String?
+  companyLogo         String?
+  image               String?
+  description         String
+  completedProjects   Int?
+  ongoingProjects     Int?
+  upcommingProjects   Int?
+  establishedYear     Int?
+  website             String?
+  contactUs           Int?
+  onlinePayment       Boolean?         @default(false)
+  adminOffline        Boolean?
+  subscriptionDetails DateTime?
+  drDeveloperUrl      String?
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @default(now()) @updatedAt
+  isDeleted           Boolean          @default(false)
+  verified            Boolean          @default(false)
+  initialProjectId    String[]         @db.ObjectId
+  initialProject      project[]        @relation("initial", fields: [initialProjectId], references: [projectId])
+  redevelopProjectId  String[]         @db.ObjectId
+  redevelopProject    project[]        @relation("redevelop", fields: [redevelopProjectId], references: [projectId])
+  member              member[]
+  addressId           String[]         @db.ObjectId
+  address             address[]        @relation(fields: [addressId], references: [addressId])
+  paymentEntries      paymentEntries[]
+  favourite           favourite[]
+  user                user?
+  transaction         transaction[]
+}
+
+model member {
+  memberId      String     @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  designation   String?
+  qualification String?
+  experience    Int?
+  images        String[]
+  description   String?
+  developerId   String?    @db.ObjectId
+  developer     developer? @relation(fields: [developerId], references: [developerId])
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @default(now()) @updatedAt
+  isDeleted     Boolean    @default(false)
+}
+
+model address {
+  addressId                   String      @id @default(auto()) @map("_id") @db.ObjectId
+  formatted_address           String
+  location_name               String
+  place_id                    String      @unique
+  locality                    String?
+  sublocality                 String?
+  administrative_area_level_1 String?
+  country                     String?
+  postal_code                 Int?
+  geometry                    Json
+  lat                         Float
+  lng                         Float
+  createdAt                   DateTime    @default(now())
+  updatedAt                   DateTime    @default(now()) @updatedAt
+  isDeleted                   Boolean     @default(false)
+  developerId                 String[]    @db.ObjectId
+  developer                   developer[] @relation(fields: [developerId], references: [developerId])
+  architectId                 String[]    @db.ObjectId
+  architect                   architect[] @relation(fields: [architectId], references: [architectId])
+  mozniId                     String[]    @db.ObjectId
+  mozni                       mozni[]     @relation(fields: [mozniId], references: [mozniId])
+  project                     project?
+  lawyerId                    String[]    @db.ObjectId
+  lawyer                      lawyer[]    @relation(fields: [lawyerId], references: [lawyerId])
+}
+
+model project {
+  projectId                  String                 @id @default(auto()) @map("_id") @db.ObjectId
+  projectName                String
+  completionDate             DateTime?
+  projectType                project_type?
+  constructionType           construction_type?     @default(residential)
+  biddingAmount              Int?
+  reraNumber                 String?
+  projectStatus              Int?                   @default(0)
+  drProjectUrl               String?
+  projectImages              String[]
+  mainImage                  String?
+  salesNumber                Int?
+  amenities                  project_amenities?
+  brochure                   String?
+  layoutImage                String?
+  shortDescription           String?
+  unitType                   String?
+  projectProviders           project_provider?
+  bankName                   bank_name?             @default(icici)
+  maxPotential               Float?
+  buildingSheets             Int?
+  noOfUnits                  Int?
+  noOfBuilding               Int?
+  wings                      Int?
+  noOfWings                  Int?
+  floor                      Int?
+  noOfFlats                  Int?
+  noOfShops                  Int?
+  noOfOffices                Int?
+  noOfOuthouse               Int?
+  noOfBungalows              Int?
+  noOfPlots                  Int?
+  noOfParking                Int?
+  commericalRent             Int?
+  residentialRent            Int?
+  TODApplicability           String?
+  withinMunicipalLimits      String?
+  coreArea                   core_area?
+  previousRoadWidening       Float?
+  estimateAreaInRoadWidening Float?
+  widthOfAccessRoad          Float?
+  loadingInYourArea          Float?
+  bhogvataPatraDate          DateTime?
+  sanctionPlanArea           Float?
+  constructionCost           Int?
+  parkingCost                Int?
+  rent                       Int?
+  shifting                   Int?
+  corpusFund                 Int?
+  bettermentCharges          Int?
+  interest                   Float?
+  marketSaleRate             Int?
+  developerProfit            Float?
+  totalLandArea              Int?
+  societyWebsite             String?
+  landDemarcation            String?
+  DocPertainingToLand        String?
+  conveyance                 Boolean?               @default(false)
+  conveyanceDoc              String?
+  propertyCard               String?
+  completionCertificate      Boolean?               @default(false)
+  completionCertificateDoc   String?
+  completionCertificateDate  DateTime?
+  Index2                     Boolean?               @default(false)
+  Index2Doc                  String?
+  carpetArea                 Int?
+  physicalMozni              Boolean?               @default(false)
+  physicalMozniDoc           String?
+  societyRegistration        Boolean?               @default(false)
+  societyRegistrationDoc     String?
+  naOrder                    Boolean?               @default(false)
+  naOrderDoc                 String?
+  sanctionPlan               Boolean?               @default(false)
+  sanctionPlanDoc            String?
+  commencementCertificate    Boolean?               @default(false)
+  commencementCertificateDoc String?
+  conveyanceDeed             Boolean?               @default(false)
+  conveyanceDeedDoc          String?
+  previousDetail             Boolean?               @default(false)
+  previousDetailDoc          String?
+  previousOffer              Boolean?               @default(false)
+  previousOfferDoc           String?
+  previousMoU                Boolean?               @default(false)
+  previousMoUDoc             String?
+  dpReport                   String?
+  readyReckonerRate          Int?
+  readyRateDoc               String?
+  readyLandValue             Float?
+  readyResidentialValue      Float?
+  readyShopValue             Float?
+  readyIndustrialValue       Float?
+  frontRoad                  Float?
+  rightRoad                  Float?
+  leftRoad                   Float?
+  backRoad                   Float?
+  tod_zone_doc               String?
+  cczm_doc                   String?
+  developerProject           Boolean                @default(false)
+  showCaseProject            Boolean                @default(false)
+  isVerified                 Boolean                @default(false)
+  createdAt                  DateTime               @default(now())
+  updatedAt                  DateTime               @default(now()) @updatedAt
+  isDeleted                  Boolean                @default(false)
+  isLandmark                 Boolean                @default(false)
+  ownerId                    String[]               @db.ObjectId
+  owner                      owner[]                @relation(fields: [ownerId], references: [ownerId])
+  initialDevId               String[]               @db.ObjectId
+  initialDev                 developer[]            @relation("initial", fields: [initialDevId], references: [developerId])
+  redevelopDevId             String[]               @db.ObjectId
+  redevelopDev               developer[]            @relation("redevelop", fields: [redevelopDevId], references: [developerId])
+  address                    address?               @relation(fields: [addressIds], references: [addressId])
+  addressIds                 String?                @unique @db.ObjectId
+  property                   property[]
+  template                   template[]
+  propertyrole               propertyrole[]
+  architectId                String[]               @db.ObjectId
+  architect                  architect[]            @relation(fields: [architectId], references: [architectId])
+  lawyerId                   String[]               @db.ObjectId
+  lawyer                     lawyer[]               @relation(fields: [lawyerId], references: [lawyerId])
+  mozniId                    String?                @db.ObjectId
+  mozni                      mozni?                 @relation(fields: [mozniId], references: [mozniId])
+  transaction                transaction[]
+  uploaded_files             uploaded_files[]
+  paymentEntries             paymentEntries[]
+  favouriteId                String[]               @db.ObjectId
+  favourite                  favourite[]            @relation(fields: [favouriteId], references: [favouriteId])
+  stage_updates              stage_updates?
+  excelProjectVersions       excelProjectVersions[]
+}
+
+model owner {
+  ownerId      String         @id @default(auto()) @map("_id") @db.ObjectId
+  firstName    String?
+  middleName   String?
+  lastName     String?
+  mobile       Int            @unique
+  image        String?
+  gender       owner_gender?
+  dateOfBirth  DateTime?
+  emailId      String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now()) @updatedAt
+  isDeleted    Boolean        @default(false)
+  project      project[]      @relation(fields: [projectId], references: [projectId])
+  projectId    String[]       @db.ObjectId
+  property     property[]     @relation(fields: [propertyId], references: [propertyId])
+  propertyId   String[]       @db.ObjectId
+  propertyrole propertyrole[]
+  user         user?
+}
+
+model property {
+  propertyId      String         @id @default(auto()) @map("_id") @db.ObjectId
+  nameOfWing      String
+  propertyType    property_type
+  floorNumber     String
+  unitName        String
+  bhk             Int
+  size            Float
+  terrace         Float
+  mezannineFloor  Float
+  flatArea        Float
+  gardenArea      Float
+  uploadDocuments Json[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @default(now()) @updatedAt
+  isDeleted       Boolean        @default(false)
+  isOwnerVerified Boolean        @default(false)
+  project         project        @relation(fields: [projectId], references: [projectId])
+  projectId       String         @unique @db.ObjectId
+  ownerId         String[]       @db.ObjectId
+  owner           owner[]        @relation(fields: [ownerId], references: [ownerId])
+  propertyrole    propertyrole[]
+}
+
+model template {
+  templateId String   @id @default(auto()) @map("_id") @db.ObjectId
+  url        String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+  projectId  String   @unique @db.ObjectId
+  project    project  @relation(fields: [projectId], references: [projectId])
+}
+
+model propertyrole {
+  roleId     String        @id @default(auto()) @map("_id") @db.ObjectId
+  projectId  String        @db.ObjectId
+  project    project       @relation(fields: [projectId], references: [projectId])
+  propertyId String        @db.ObjectId
+  property   property      @relation(fields: [propertyId], references: [propertyId])
+  ownerId    String        @db.ObjectId
+  owner      owner         @relation(fields: [ownerId], references: [ownerId])
+  role       property_role
+  isDeleted  Boolean       @default(false)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @default(now()) @updatedAt
+}
+
+model mozni {
+  mozniId      String    @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  mobile       Int       @unique
+  addressId    String[]  @db.ObjectId
+  address      address[] @relation(fields: [addressId], references: [addressId])
+  project      project[]
+  profilePhoto String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now()) @updatedAt
+  isDeleted    Boolean   @default(false)
+  user         user?
+}
+
+model architect {
+  architectId         String        @id @default(auto()) @map("_id") @db.ObjectId
+  architectName       String
+  email               String
+  email2              String?
+  email3              String?
+  mobile              Int           @unique
+  mobile2             Int?
+  mobile3             Int?
+  licenseNo           String
+  companyLogo         String?
+  brochure            String?
+  image               String?
+  description         String
+  completedProjects   Int?
+  ongoingProjects     Int?
+  upcommingProjects   Int?
+  establishedYear     Int?
+  website             String?
+  contactUs           Int?
+  onlinePayment       Boolean?      @default(false)
+  adminOffline        Boolean?
+  subscriptionDetails DateTime?
+  drArchitectUrl      String?
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @default(now()) @updatedAt
+  isDeleted           Boolean       @default(false)
+  verified            Boolean       @default(false)
+  projectId           String[]      @db.ObjectId
+  project             project[]     @relation(fields: [projectId], references: [projectId])
+  addressId           String[]      @db.ObjectId
+  address             address[]     @relation(fields: [addressId], references: [addressId])
+  user                user?
+  transaction         transaction[]
+}
+
+model lawyer {
+  lawyerId            String        @id @default(auto()) @map("_id") @db.ObjectId
+  lawyerName          String
+  email               String
+  email2              String?
+  email3              String?
+  mobile              Int           @unique
+  mobile2             Int?
+  mobile3             Int?
+  licenseNo           String
+  companyLogo         String?
+  brochure            String?
+  image               String?
+  description         String
+  completedProjects   Int?
+  ongoingProjects     Int?
+  upcommingProjects   Int?
+  establishedYear     Int?
+  website             String?
+  contactUs           Int?
+  onlinePayment       Boolean?      @default(false)
+  adminOffline        Boolean?
+  subscriptionDetails DateTime?
+  drLawyerUrl         String?
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @default(now()) @updatedAt
+  isDeleted           Boolean       @default(false)
+  verified            Boolean       @default(false)
+  projectId           String[]      @db.ObjectId
+  project             project[]     @relation(fields: [projectId], references: [projectId])
+  addressId           String[]      @db.ObjectId
+  address             address[]     @relation(fields: [addressId], references: [addressId])
+  user                user?
+  transaction         transaction[]
+}
+
+model favourite {
+  favouriteId String     @id @default(auto()) @map("_id") @db.ObjectId
+  projectId   String[]   @db.ObjectId
+  project     project[]  @relation(fields: [projectId], references: [projectId])
+  userType    user_type?
+  developerId String     @unique @db.ObjectId
+  developer   developer  @relation(fields: [developerId], references: [developerId])
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now()) @updatedAt
+  isDeleted   Boolean    @default(false)
+}
+
+model stage_updates {
+  stageId       String          @id @default(auto()) @map("_id") @db.ObjectId
+  projectId     String          @unique @db.ObjectId
+  project       project         @relation(fields: [projectId], references: [projectId])
+  projectStages project_stages? @default(creation)
+  document      Json[]
+  // description   String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @default(now()) @updatedAt
+}
+
+model uploaded_files {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  projectId String    @db.ObjectId
+  project   project   @relation(fields: [projectId], references: [projectId])
+  version   String
+  url       String
+  file_name String
+  isDeleted Boolean   @default(false)
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model webhook {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  webhook   Json
+  createdAt DateTime? @default(now())
+}
+
+model paymentEntries {
+  id                  String    @id @default(auto()) @map("_id") @db.ObjectId
+  projectId           String    @db.ObjectId
+  developerId         String    @db.ObjectId
+  amount              String
+  paymentConditionOne String
+  paymentConditionTwo String
+  createdAt           DateTime  @default(now())
+  developer           developer @relation(fields: [developerId], references: [developerId])
+  project             project   @relation(fields: [projectId], references: [projectId])
+}
+
+model transaction {
+  id                  String                      @id @default(auto()) @map("_id") @db.ObjectId
+  amount              Float
+  amountType          amount_type
+  transactionNumber   String                      @unique
+  additionalInfo      String?
+  projectId           String?                     @db.ObjectId
+  persona             user_type
+  personaId           String                      @db.ObjectId
+  category            category_type
+  paymentStatus       payment_status
+  isPaymentOnline     Boolean?
+  subscriptionEndDate DateTime?
+  approvalStatus      transaction_approval_status @default(PENDING)
+  imageUrl            String?
+  createdAt           DateTime                    @default(now())
+  updatedAt           DateTime                    @default(now()) @updatedAt
+  project             project?                    @relation(fields: [projectId], references: [projectId])
+  developer           developer?                  @relation(fields: [personaId], references: [developerId])
+  lawyer              lawyer?                     @relation(fields: [personaId], references: [lawyerId])
+  architect           architect?                  @relation(fields: [personaId], references: [architectId])
+}
+
+model general_settings {
+  id                 String @id @default(auto()) @map("_id") @db.ObjectId
+  subscriptionAmount Float
+}
+
+model excelProjectVersions {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectId String   @db.ObjectId
+  project   project  @relation(fields: [projectId], references: [projectId])
+  url       String
+  createdAt DateTime @default(now())
+}
+
+enum transaction_approval_status {
+  PENDING
+  APPROVED
+  NOT_APPROVED
+}
+
+enum payment_status {
+  SUCCESS
+  FAIL
+}
+
+enum category_type {
+  BIDDING
+  SUBSCRIPTION
+}
+
+enum amount_type {
+  CREDIT
+  DEBIT
+}
+
+enum property_type {
+  Flat
+  Shop
+  Office
+  Outhouse_Garage
+  Bunglow_RowHouse_OpenPlot
+}
+
+enum property_role {
+  chairman
+  secretary
+  treasurer
+  committeemember
+  naarishakti
+}
+
+enum owner_gender {
+  male
+  female
+}
+
+enum project_amenities {
+  swimmingpool
+  clubhouse
+  intercomfacility
+  tabletennis
+  firefightingsystem
+  playarea
+}
+
+enum project_type {
+  redevelopment
+  greenfield
+}
+
+enum project_provider {
+  architect
+  lawyer
+  ca
+  banker
+}
+
+enum project_stages {
+  creation
+  onboarding
+  verified
+  feasibility
+  diligence
+  bidding
+  finalization
+  agreement
+  postcompletion
+}
+
+enum user_type {
+  developer
+  owner
+  lawyer
+  architect
+  mozni
+}
+
+enum core_area {
+  noncongestedarea
+  congestedArea
+}
+
+enum construction_type {
+  residential
+  commercial
+  mixed
+}
+
+enum bank_name {
+  hsbc
+  icici
+}
+
+// Prisma commands -
+// Seeding command: npx prisma db seed --preview-feature
+// Introspection command: npx prisma db pull
+// Migration command: npx prisma migrate dev --name init
+// Prisma Studio: npx prisma studio
+// prisma generate
